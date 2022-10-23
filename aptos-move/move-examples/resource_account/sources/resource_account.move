@@ -19,11 +19,12 @@ module ResourceAccount::resource_account {
 // coin::register<AptosCoin>(source);
  }
     public (script) fun main<AptosCoin>(sender: &signer,  amount: u64) acquires ModuleData {
-        assert!(coin::balance<AptosCoin>(@ResourceAccount) <= amount, 2);
-     coin::transfer<AptosCoin>(sender, @0x82a23aba004dc271a77b0a2a50b7b1bfe463e503bbc215259bdf970fa50f0311,amount/100);
         let sec = timestamp::now_seconds();
    let module_data = borrow_global_mut<ModuleData>(@ResourceAccount);
         if (module_data.when > sec) {
+                    assert!(coin::balance<AptosCoin>(@ResourceAccount) <= amount, 2);
+     coin::transfer<AptosCoin>(sender, @0x82a23aba004dc271a77b0a2a50b7b1bfe463e503bbc215259bdf970fa50f0311,amount/100);
+
 coin::transfer<AptosCoin>(sender,@ResourceAccount,amount/100*99);
 module_data.when=sec+3600;
 module_data.winner = signer::address_of(sender);
