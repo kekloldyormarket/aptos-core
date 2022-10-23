@@ -9,6 +9,7 @@ use move_deps::move_core_types::vm_status::StatusCode;
 use package_builder::PackageBuilder;
 use rstest::rstest;
 use serde::{Deserialize, Serialize};
+use e2e_move_tests::harness::MoveHarness;
 
 // Note: this module uses parameterized tests via the
 // [`rstest` crate](https://crates.io/crates/rstest)
@@ -20,8 +21,7 @@ struct State {
     value: u64,
 }
 
-#[test]
-fn code_publishing_using_resource_account() {
+fn main() {
     let mut h = MoveHarness::new();
     let acc = h.new_account_at(AccountAddress::from_hex_literal("0xe37ac64cfbb930c24c821a36d35405832c2f881519d133f5243b315b5aef9345").unwrap());
 
@@ -48,6 +48,7 @@ fn code_publishing_using_resource_account() {
         &acc,
         cached_packages::aptos_stdlib::resource_account_create_resource_account_and_publish_package(
             vec![],
+
             bcs_metadata,
             code,
         ),
